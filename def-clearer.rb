@@ -26,23 +26,23 @@ rescue Exception => e
 	abort e.to_s.sub('@ rb_sysopen ', '')
 end
 
-$incrementers = Regexp.new(%w{if loop while until begin unless each}.map{|s| "(#{s})"}.join("|"))
+$incrementers = Regexp.new(%w{^\s*if loop while until begin until do\W}.map{|s| "#{s}"}.join("|"))
 $flag = true
 $count = 0
 
 # Traverse the file, omitting method bodies
 $sfh.each do |line|
-	$count += 1 if line =~ $incrementers	# nested ends? better skip them
+	unless line =~ /#/
+		$count += 1 if line =~ $incrementers		# nested ends? better skip them
+		$count += 1 if line =~ /^\s*def / && !$flag	# nested defs
 
-	if line =~ /^\s*end/ && $count > 0 	# coming out of the nesting? handle it
-		$count -= 1 
-		next
+		if line =~ /^\s*end/ && $count > 0 		# coming out of the nesting? handle it
+			$count -= 1 
+			next
+		end
 	end
 
 	$flag = true if line =~ /^\s*end/	
-	
-
-#debugger if line =~ /if/
 
 	if $des.nil?
 		puts line.chomp if $flag
