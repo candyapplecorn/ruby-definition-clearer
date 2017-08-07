@@ -2,6 +2,7 @@
 A simple ruby script meant to remove method bodies.
 
 ## Easy install:
+You should be able to copy these commands and paste them into your terminal all at once:
 ```bash
 cd $HOME
 git clone https://github.com/candyapplecorn/ruby-definition-clearer.git
