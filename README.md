@@ -1,9 +1,9 @@
-# THIS PROGRAM DOESN'T WORK, DO NOT USE IT
 # ruby-definition-clearer
-A simple ruby script meant to remove method bodies
+A simple ruby script meant to remove method bodies.
 
 ## Easy install:
 ```bash
+cd $HOME
 git clone https://github.com/candyapplecorn/ruby-definition-clearer.git
 mv ruby-definition-clearer .def-clear
 cd .def-clear
@@ -52,7 +52,7 @@ The script supports output filenames, so you could also run this command to achi
 ```bash
 $ def-clear some-ruby-file.rb my-fresh-ruby-file.rb
 ```
-## WARNING:
+## WARNING: Use at your own risk!
 Do not pipe the STDOUT output of def-clear into its input file. __THIS WILL ERASE THE INPUT FILE'S CONTENTS__. If you want to overwrite a file with itself, sans method bodies, use def-clear's optional second argument like so:
 
 ```bash
