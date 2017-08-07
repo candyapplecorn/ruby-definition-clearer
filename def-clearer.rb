@@ -32,17 +32,18 @@ $count = 0
 
 # Traverse the file, omitting method bodies
 $sfh.each do |line|
-	unless line =~ /#/
-		$count += 1 if line =~ $incrementers		# nested ends? better skip them
-		$count += 1 if line =~ /^\s*def / && !$flag	# nested defs
+	uncommented = line.sub(/#.*/, '')
+	#unless uncommented =~ /#/
+		$count += 1 if uncommented =~ $incrementers		# nested ends? better skip them
+		$count += 1 if uncommented =~ /^\s*def / && !$flag	# nested defs
 
-		if line =~ /^\s*end/ && $count > 0 		# coming out of the nesting? handle it
+		if uncommented =~ /^\s*end/ && $count > 0 		# coming out of the nesting? handle it
 			$count -= 1 
 			next
 		end
-	end
+	#end
 
-	$flag = true if line =~ /^\s*end/	
+	$flag = true if uncommented =~ /^\s*end/	
 
 	if $des.nil?
 		puts line.chomp if $flag
@@ -50,7 +51,7 @@ $sfh.each do |line|
 	   $dfh.puts line.chomp if $flag
 	end
 
-	$flag = false if line =~ /^\s*def/
+	$flag = false if uncommented =~ /^\s*def/
 end
 
 # Rename the destination file if it was provided
